@@ -1,6 +1,6 @@
 <?php
 
-$lunghezza = $_GET['number'];
+$lunghezza = isset($_GET['number']) ? $_GET['number'] : 0;
 
 // generatore lettere maiuscole e minuscole
 function generatoreLettere($lunghezza) {
@@ -72,7 +72,13 @@ function generatorePassword($lunghezza) {
         <button type="submit">Genera</button>
     </form>
 
-    <div><?php echo generatorePassword($lunghezza); ?></div>
+    <?php if($lunghezza >= 8 && $lunghezza <= 32): ?>
+        <div><?php echo generatorePassword($lunghezza); ?></div>
+    <?php elseif(!$lunghezza): ?>
+        <div>Genera una password di lunghezza compresa tra 8 e 32</div>    
+    <?php else: ?>
+        <div>Errore! La password deve avere una lunghezza tra 8 e 32</div>
+    <?php endif; ?>
 
 </body>
 </html>
