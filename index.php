@@ -1,58 +1,7 @@
 <?php
-
-$lunghezza = isset($_GET['number']) ? $_GET['number'] : 0;
-
-// generatore lettere maiuscole e minuscole
-function generatoreLettere($lunghezza) {
-    $lettereRandom = '';
-    for($i = 0; $i < $lunghezza; $i++) {
-        if (random_int(0, 1) === 1) {
-            $lettereRandom .= chr(random_int(65, 90));
-        } else {
-            $lettereRandom .= chr(random_int(97, 122));
-        }
-    }
-
-    return $lettereRandom;
-}
-
-// generatore numeri
-function generatoreNumeri($lunghezza) {
-    $numeriRandom = '';
-    for($i = 0; $i < $lunghezza; $i++) {
-        $numeriRandom .= random_int(0,9);
-    }
-
-    return $numeriRandom;
-}
-
-// generatore caratteri speciali
-function generatoreCaratteriSpeciali($lunghezza) {
-    $symbols = '!?&%$<>^+-*/()[]{}@#_=';
-    $caratteri = '';
-
-    for ($i = 0; $i < $lunghezza; $i++) {
-        $caratteri .= $symbols[random_int(0, strlen($symbols) - 1)];
-    }
-
-    return $caratteri;
-}
-
-// generatore password
-function generatorePassword($lunghezza) {
-    $lettere = generatoreLettere($lunghezza);
-    $numeri = generatoreNumeri($lunghezza);
-    $caratteri = generatoreCaratteriSpeciali($lunghezza);
-
-    $stringa = $lettere . $numeri . $caratteri;
-
-    $password = str_shuffle($stringa);
-
-    return substr($password, 0, $lunghezza);
-}
+include __DIR__ . '/functions.php';
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -64,21 +13,22 @@ function generatorePassword($lunghezza) {
     <title>php-strong-password-generator</title>
 </head>
 <body>
-    <h1>Strong Password Generator</h1>
+    <div class="container my-5 py-5 text-center bg-info-subtle">
+        <h1 class="fw-bold mb-5">Strong Password Generator</h1>
 
-    <form action="index.php" method="GET">
-        <label for="number">Lunghezza password</label>
-        <input type="number" name="number" id="number">
-        <button type="submit">Genera</button>
-    </form>
+        <form action="index.php" method="GET" class="my-4">
+            <label for="number" class="fs-5 me-4">Lunghezza password:</label>
+            <input type="number" name="number" id="number">
+            <button type="submit" class="ms-2 btn btn-primary">Genera</button>
+        </form>
 
-    <?php if($lunghezza >= 8 && $lunghezza <= 32): ?>
-        <div><?php echo generatorePassword($lunghezza); ?></div>
-    <?php elseif(!$lunghezza): ?>
-        <div>Genera una password di lunghezza compresa tra 8 e 32</div>    
-    <?php else: ?>
-        <div>Errore! La password deve avere una lunghezza tra 8 e 32</div>
-    <?php endif; ?>
-
+        <?php if($lunghezza >= 8 && $lunghezza <= 32): ?>
+            <div class="fs-5"><?php echo generatorePassword($lunghezza); ?></div>
+        <?php elseif(!$lunghezza): ?>
+            <div class="fs-6">Genera una password di lunghezza compresa tra 8 e 32</div>    
+        <?php else: ?>
+            <div class="text-danger">Errore! La password deve avere una lunghezza tra 8 e 32</div>
+        <?php endif; ?>
+    </div>
 </body>
 </html>
