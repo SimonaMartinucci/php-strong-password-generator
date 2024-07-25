@@ -26,6 +26,31 @@ function generatoreNumeri($lunghezza) {
     return $numeriRandom;
 }
 
+// generatore caratteri speciali
+function generatoreCaratteriSpeciali($lunghezza) {
+    $symbols = '!?&%$<>^+-*/()[]{}@#_=';
+    $caratteri = '';
+
+    for ($i = 0; $i < $lunghezza; $i++) {
+        $caratteri .= $symbols[random_int(0, strlen($symbols) - 1)];
+    }
+
+    return $caratteri;
+}
+
+// generatore password
+function generatorePassword($lunghezza) {
+    $lettere = generatoreLettere($lunghezza);
+    $numeri = generatoreNumeri($lunghezza);
+    $caratteri = generatoreCaratteriSpeciali($lunghezza);
+
+    $stringa = $lettere . $numeri . $caratteri;
+
+    $password = str_shuffle($stringa);
+
+    return substr($password, 0, $lunghezza);
+}
+
 ?>
 
 
@@ -47,7 +72,7 @@ function generatoreNumeri($lunghezza) {
         <button type="submit">Genera</button>
     </form>
 
-    <div><?php echo generatoreNumeri($lunghezza); ?></div>
+    <div><?php echo generatorePassword($lunghezza); ?></div>
 
 </body>
 </html>
